@@ -1,5 +1,33 @@
 #include<iostream>
+#include<fstream>
 using namespace std;
+
+// Function to Save data into the file
+void SaveData(string name,string background,int score){
+    ofstream InputDatainFile("BeginnerGuide.txt",ios::app);
+    if(!InputDatainFile){
+        cout<<"File did not open properly!"<<endl;
+        return;
+    }
+    cout<<"...............Saving data into file................"<<endl;
+    InputDatainFile<<"Name is: "<<name<<" with background: "<<background<<" with scored: "<<score<<endl;
+    InputDatainFile.close();
+}
+
+// Function to Display the data from the file 
+void DisplayData(){
+    ifstream GetInputDataOfFile("BeginnerGuide.txt");
+    if(!GetInputDataOfFile){ 
+        cout<<"Failed to open file! "<<endl; 
+        return;
+    }
+    string line;
+    cout<<"Reading from the file"<<endl;
+    while (getline(GetInputDataOfFile,line)){
+        cout<<line<<endl;
+    }
+    GetInputDataOfFile.close();                  
+}
 
 class Quiz {
 public:
@@ -11,33 +39,37 @@ public:
         cout << "   B. printf('Hello');" << endl;
         cout << "   C. cout << 'Hello';" << endl;
         cout << "   D. System.out.println('Hello');" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "C" || choice == "c")
             score++;
+
         cout << "Q2. Which data type is used to store decimal numbers in C++?" << endl;
         cout << "   A. int" << endl;
         cout << "   B. float" << endl;
         cout << "   C. char" << endl;
         cout << "   D. bool" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "B" || choice == "b")
             score++;
+
         cout << "Q3. What is the purpose of the 'for' loop in C++?" << endl;
         cout << "   A. To make decisions" << endl;
         cout << "   B. To repeat a block of code multiple times" << endl;
         cout << "   C. To define a new function" << endl;
         cout << "   D. To terminate the program" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "B" || choice == "b")
             score++;
+
         cout << "Q4. Which of the following symbols is used to access members of a class in C++?" << endl;
         cout << "   A. * (asterisk)" << endl;
         cout << "   B. -> (arrow)" << endl;
         cout << "   C. . (dot)" << endl;
         cout << "   D. Both B and C depending on usage" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "D" || choice == "d")
             score++;
+
         cout << "Q5. What will be the output of this code?" << endl;
         cout << "   int a = 5, b = 2;" << endl;
         cout << "   cout << a / b;" << endl;
@@ -45,7 +77,7 @@ public:
         cout << "   B. 2" << endl;
         cout << "   C. 3" << endl;
         cout << "   D. Error" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "B" || choice == "b")
             score++;
         return score;
@@ -62,37 +94,34 @@ public:
     }
     void GeneralRecommendations() {
         cout << "Seems you are new to programming!" << endl;
-        cout << endl;
-        cout << "Follow the following Youtube link" << endl;
-        cout << endl;
+        cout << "Follow this Youtube playlist:" << endl;
         cout << "https://www.youtube.com/playlist?list=PLdo5W4Nhv31YU5Wx1dopka58teWP9aCee" << endl;
-        cout << endl;
-        cout << "Kindly refer to book:  C++ Primer,5th Edition by Stanley B Lippman book" << endl;
-        cout << endl;
+        cout << "Book: C++ Primer (5th Edition) by Stanley B. Lippman" << endl;
     }
     void AdvancedRecommendations() {
         cout << "You seem to have some prior knowledge of programming" << endl;
-        cout << "Kindly refer to the following Youtube link, to become more pro in OOP" << endl;
-        cout << "https://www.youtube.com/watch?v=vLnPwxZdW4Y" << endl;
-        cout << "Kindly refer to book:Programming, Principles and Practice Using C++ by Bjarne Stroustrup " << endl;
+        cout << "Youtube: https://www.youtube.com/watch?v=vLnPwxZdW4Y" << endl;
+        cout << "Book: Programming Principles and Practice Using C++ by Bjarne Stroustrup" << endl;
     }
 };
 
 class Choice {
 public:
     string choice;
-    void c() {
+    int c() {
         cout << "Would you like a quiz?" << endl;
-        cin >> choice;
+        getline(cin, choice);
         if (choice == "yes" || choice == "Yes") {
             Quiz q;
             int q1 = q.quiz();
             Recommendations R;
             R.Recommendationss(q1);
+            return q1;
         }
-        if (choice == "No" || choice == "no") {
+        else {
             Recommendations R1;
             R1.Recommendationss(0);
+            return 0;
         }
     }
 };
@@ -104,22 +133,13 @@ protected:
 public:
     static int studentCount;
     Student(string n, string bg) : name(n), background(bg) { studentCount++; }
-    void SetData() {
-        cout << "Enter your name: " << endl;
-        cin >> name;
-        cout << "Enter your background: " << endl;
-        cin >> background;
-    }
-    void GetData() {
-        cout << "Name is: " << name << " has background: " << background << endl;
-    }
     virtual void PersonalizedStudyPlan() {
         cout << "In order to learn Programming you need to: " << endl;
         cout << "Follow a suitable Youtube playlist, along side with a beginner friendly book" << endl;
-        cout << "You must be warned against the use of AI and focus on logic bulding and practice" << endl;
+        cout << "Avoid overusing AI; focus on logic building and practice." << endl;
     }
     void Count() {
-        cout << "Number of student used our app are: " << studentCount << endl;
+        cout << "Number of students who used our app: " << studentCount << endl;
     }
 };
 int Student::studentCount = 0;
@@ -127,37 +147,22 @@ int Student::studentCount = 0;
 class NonICS : public Student {
 public:
     NonICS(string n1, string bg1) : Student(n1, bg1) {}
-    void askPersonalPlan() {
-        cout << "Do you want personalized study plan? ";
-        string Ps; cin >> Ps;
-        if (Ps == "yes" || Ps == "Yes") PersonalizedStudyPlan();
-    }
     void PersonalizedStudyPlan() override {
         cout << "**** Buckle up new Programmer!!!! ****" << endl;
-        cout << "Start by watching Youtube playlist and follow the book chapters" << endl;
-        cout << "Practice and understand each question and example and try different approaches to solve the same problem" << endl;
-        cout << "We very careful is using AI tools" << endl;
-        cout << "Try logic building yourself and must dry run your codes before running them" << endl;
-        cout << "And most importantly remember you might fall, but never give up!!" << endl;
-        cout << "Hope you enjoy this hard journey ^.^ " << endl;
-        cout << "_____________________________________________________________________________________________________________" << endl;
+        cout << "Start by watching the recommended Youtube playlist and following book chapters." << endl;
+        cout << "Be careful using AI tools — build logic by yourself!" << endl;
+        cout << "Never give up! ^.^" << endl;
+        cout << "__________________________________________________________" << endl;
     }
 };
 
 class ICS : public Student {
 public:
     ICS(string n2, string bg2) : Student(n2, bg2) {}
-    void askPersonalPlan() {
-        cout << "Do you want personalized study plan? ";
-        string Ps; cin >> Ps;
-        if (Ps == "yes" || Ps == "Yes") PersonalizedStudyPlan();
-    }
     void PersonalizedStudyPlan() override {
-        cout << "It is good that you have some prior knowledge" << endl;
-        cout << "You must look the places you are weak in and work in those areas" << endl;
-        cout << "Working on side projects is always a good idea too!" << endl;
-        cout << "Follow the Youtube link you have been recommended and follow along with book" << endl;
-        cout << "Best of luck !!! ^.^" << endl;
+        cout << "You have prior knowledge. Focus on your weak areas!" << endl;
+        cout << "Work on projects and follow the recommended playlist and book." << endl;
+        cout << "Best of luck!" << endl;
     }
 };
 
@@ -165,27 +170,32 @@ class BeginnersGuide {
 public:
     string n, bG, E;
     void Menu() {
+        DisplayData(); 
         do {
-            cout << "Welcome to Beginner's Guide ! ^.^ " << endl;
-            cout << "Please enter your name: " << endl;
-            cin >> n;
-            cout << "Please enter your background: " << endl;
-            cin >> bG;
+            cout << "\nWelcome to Beginner's Guide ! ^.^ " << endl;
+            cout << "Please enter your name: ";
+            getline(cin, n);
+            cout << "Please enter your background: ";
+            getline(cin, bG);
+
             if (bG == "ICS" || bG == "Ics" || bG == "ics") {
                 ICS student(n, bG);
                 Choice c1;
-                c1.c();
+                int q = c1.c();
+                SaveData(n, bG, q);
                 student.PersonalizedStudyPlan();
             }
-            if (bG == "Non Ics" || bG == "non ics" || bG == "Non ics") {
+            else if (bG == "Non Ics" || bG == "non ics" || bG == "Non ics") {
                 NonICS student(n, bG);
                 Choice c1;
-                c1.c();
+                int q = c1.c();
+                SaveData(n, bG, q);
                 student.PersonalizedStudyPlan();
             }
-            cout << "Thank you for using our app !" << endl;
-            cout << "Please enter EXIT to end Program" << endl;
-            cin >> E;
+
+            cout << "\nThank you for using our app!" << endl;
+            cout << "Type EXIT to end Program or any key to continue: ";
+            getline(cin, E);
         } while (E != "EXIT");
     }
 };
